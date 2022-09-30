@@ -2,12 +2,12 @@
 
 namespace App\Observers;
 
-use App\Models\User;
+use App\Models\Repos;
 use Illuminate\Support\Str;
 
-class UserObserver
+class ReposObserver
 {
-    public function creating(User $user)
+    public function creating(Repos $user)
     {
         $user->uuid = Str::uuid();
     }
