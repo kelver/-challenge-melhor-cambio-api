@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Http;
 
 class UserRepository
 {
@@ -20,6 +21,41 @@ class UserRepository
 
     public function storeNewUser(array $data): User
     {
-        return $this->model->create($data);
+        $userData = $this->getUserGithub($data['login']);
+        $repos = collect($this->getReposGithub($data['login']));
+        $user = $this->model->create([
+            'name' => $userData['name'],
+            'username' => $userData['login'],
+            'avatar_url' => $userData['avatar_url'],
+            'about' => $userData['bio'] ?? 'Sem bio',
+            'user_id' => $userData['id'],
+            'repos_count' => $userData['public_repos'],
+        ]);
+
+        $repos->each(function ($repo) use ($user) {
+            $user->repos()->create([
+                'name' => $repo['name'],
+                'url' => $repo['html_url'],
+                'user_id' => $user->id,
+            ]);
+        });
+
+        return $user;
+    }
+
+    public function getUserGithub (string $login)
+    {
+        return Http::withoutVerifying()
+                ->withOptions(["verify"=>false])
+                ->get('https://api.github.com/users/' . $login)
+                ->json();
+    }
+
+    public function getReposGithub (string $login)
+    {
+        return Http::withoutVerifying()
+                ->withOptions(["verify"=>false])
+                ->get("https://api.github.com/users/{$login}/repos?per_page=100")
+                ->json();
     }
 }
