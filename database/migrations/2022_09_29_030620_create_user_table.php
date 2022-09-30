@@ -17,8 +17,8 @@
                 $table->uuid();
                 $table->string('name');
                 $table->string('username')->unique();
-                $table->string('avatar_url');
-                $table->string('about');
+                $table->string('avatar_url', 255);
+                $table->longText('about');
                 $table->string('user_id');
                 $table->bigInteger('repos_count')->unsigned();
                 $table->timestamps();
