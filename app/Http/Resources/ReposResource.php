@@ -17,7 +17,6 @@ class ReposResource extends JsonResource
         return [
             'identify' => $this->uuid,
             'name' => $this->name,
-            'username' => $this->username,
             'url' => $this->url,
         ];
     }
