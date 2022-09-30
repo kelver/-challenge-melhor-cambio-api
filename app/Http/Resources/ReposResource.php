@@ -18,9 +18,7 @@ class ReposResource extends JsonResource
             'identify' => $this->uuid,
             'name' => $this->name,
             'username' => $this->username,
-            'about' => $this->about,
-            'phone' => $this->phone,
-            'type' => $this->type === 'M' ? 'Matriz' : 'Filial',
+            'url' => $this->url,
         ];
     }
 }
