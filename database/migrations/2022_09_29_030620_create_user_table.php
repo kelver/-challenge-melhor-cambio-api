@@ -20,6 +20,7 @@
                 $table->string('avatar_url', 255);
                 $table->longText('about');
                 $table->string('user_id');
+                $table->dateTime('user_created_at');
                 $table->bigInteger('repos_count')->unsigned();
                 $table->timestamps();
             });

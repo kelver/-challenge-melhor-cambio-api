@@ -16,6 +16,7 @@ class User extends Model
         'avatar_url',
         'about',
         'user_id',
+        'user_created_at',
         'repos_count',
     ];
 
