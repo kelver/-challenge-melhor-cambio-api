@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository
 {
@@ -12,12 +13,12 @@ class UserRepository
         $this->model = $user;
     }
 
-    public function getUsers()
+    public function getUsers(): Collection|array
     {
-        return $this->model->with('typeInterest')->where('user_id', auth()->id())->paginate(10);
+        return $this->model->with('repos')->get();
     }
 
-    public function storeNewUser(array $data)
+    public function storeNewUser(array $data): User
     {
         return $this->model->create($data);
     }
