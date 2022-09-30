@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -29,6 +30,7 @@ class UserRepository
             'avatar_url' => $userData['avatar_url'],
             'about' => $userData['bio'] ?? 'Sem bio',
             'user_id' => $userData['id'],
+            'user_created_at' => Carbon::parse($userData['created_at'])->format('Y-m-d'),
             'repos_count' => $userData['public_repos'],
         ]);
 
